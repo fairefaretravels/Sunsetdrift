@@ -22,11 +22,11 @@ button:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
 small{opacity:.75;text-align:center}
 </style></head><body>
 <div id="wrap"><canvas id="c"></canvas>
-<div id="ov"><div id="card"><h1>Sunset Slide</h1>
+<div id="ov"><div id="card"><h1>Sunset Drift</h1>
 <p>Bomb the hill on a longboard. Dodge traffic, grab bits, and drift for boosts.</p>
 <p><small>Steer: arrows or A/D, or drag on screen.<br>Drift: hold Space or Shift. Jump: W or Up.</small></p>
-<button id="go">Start riding</button> <button id="rd">Rider: Raccoon</button></div></div></div>
-<div id="tb"><button id="bj">Jump</button><button id="bd">Drift (hold)</button><button id="br">Radio: off</button></div>
+<button id="go">Start drift</button> <button id="rd">Rider: Cat</button></div></div></div>
+<div id="tb"><button id="bj">Jump</button><button id="bd">Drift (hold)</button><button id="br">Radio: start</button></div>
 <small>Release a long drift to fire a boost. Three crashes and the ride ends.</small>
 <script>
 (()=>{
@@ -197,16 +197,90 @@ function player(){
  if(rider){avatar();g.restore();return}
  g.fillStyle='#2b1d4d';g.fillRect(-34,0,68,7);g.fillStyle='#ff9a3c';g.fillRect(-34,2,68,2);
  g.fillStyle='#f2f2f2';g.beginPath();g.arc(-24,9,4,0,7);g.arc(24,9,4,0,7);g.fill();
- g.fillStyle='#3b3552';g.fillRect(-12,-18,6,18);g.fillRect(6,-18,6,18);
- for(let i=0;i<6;i++){g.fillStyle=i%2?'#2b2540':'#bdb9d0';g.beginPath();g.arc(14+i*6,-24-i*3+Math.sin(s.t*8+i)*1.3,7-i*.6,0,7);g.fill()}
- g.fillStyle='#9c98b4';g.beginPath();g.ellipse(0,-30,15,16,0,0,7);g.fill();
- g.fillStyle='#ff4f8b';g.fillRect(-12,-42,24,4);g.fillRect(10,-42,10+Math.sin(s.t*10)*3,3);
- g.fillStyle='#a9a5c0';g.beginPath();g.arc(0,-54,14,0,7);g.fill();
- g.beginPath();g.moveTo(-13,-60);g.lineTo(-9,-72);g.lineTo(-3,-66);g.moveTo(13,-60);g.lineTo(9,-72);g.lineTo(3,-66);g.fill();
- g.fillStyle='#2b2540';g.fillRect(-13,-58,26,8);
- g.fillStyle='#fff';g.beginPath();g.arc(-5,-54,2.6,0,7);g.arc(5,-54,2.6,0,7);g.fill();
- g.fillStyle='#111';g.beginPath();g.arc(-5,-54,1.2,0,7);g.arc(5,-54,1.2,0,7);g.arc(0,-47,2.2,0,7);g.fill();
+ 
+ // Cat rider
+ g.fillStyle='#77738f';
+ g.fillRect(-12,-18,6,18);
+ g.fillRect(6,-18,6,18);
+
+ // Tail
+ g.strokeStyle='#77738f';
+ g.lineWidth=7;
+ g.beginPath();
+ g.moveTo(10,-25);
+ g.bezierCurveTo(29,-28,27,-43,15,-39);
+ g.stroke();
+
+ // Body
+ g.fillStyle='#77738f';
+ g.beginPath();
+ g.ellipse(0,-31,14,17,0,0,Math.PI*2);
+ g.fill();
+
+ // Head
+ g.fillStyle='#aaa6c1';
+ g.beginPath();
+ g.arc(0,-54,14,0,Math.PI*2);
+ g.fill();
+
+ // Pointed ears
+ g.beginPath();
+ g.moveTo(-13,-59);
+ g.lineTo(-12,-74);
+ g.lineTo(-3,-65);
+ g.moveTo(13,-59);
+ g.lineTo(12,-74);
+ g.lineTo(3,-65);
+ g.fill();
+
+ // Pink inner ears
+ g.fillStyle='#ff9aaf';
+ g.beginPath();
+ g.moveTo(-11,-63);
+ g.lineTo(-11,-70);
+ g.lineTo(-6,-65);
+ g.moveTo(11,-63);
+ g.lineTo(11,-70);
+ g.lineTo(6,-65);
+ g.fill();
+
+ // Face
+ g.fillStyle='#35304b';
+ g.fillRect(-13,-58,26,8);
+ g.fillStyle='#aaff91';
+ g.fillRect(-9,-56,7,4);
+ g.fillRect(2,-56,7,4);
+
+ // Pupils
+ g.fillStyle='#111';
+ g.fillRect(-6,-56,2,4);
+ g.fillRect(4,-56,2,4);
+
+ // Pink nose
+ g.fillStyle='#ff8fa8';
+ g.beginPath();
+ g.moveTo(-3,-48);
+ g.lineTo(3,-48);
+ g.lineTo(0,-45);
+ g.closePath();
+ g.fill();
+
+ // Whiskers
+ g.strokeStyle='#eee8ff';
+ g.lineWidth=1;
+ g.beginPath();
+ g.moveTo(-7,-48);
+ g.lineTo(-19,-51);
+ g.moveTo(-7,-46);
+ g.lineTo(-19,-45);
+ g.moveTo(7,-48);
+ g.lineTo(19,-51);
+ g.moveTo(7,-46);
+ g.lineTo(19,-45);
+ g.stroke();
+
  g.restore();
+
 }
 function draw(){
  const s=S,k=s.stage,p=ST[k];c0=cur(s.pos);
