@@ -48,7 +48,7 @@ reset();
 function jump(){if(mode==='play'&&S.jy===0)S.jv=330}
 function start(){reset();mode='play';if(!asked){asked=1;setRadio(true)}document.getElementById('ov').style.display='none'}
 document.getElementById('go').onclick=start;
-function swap(){rider=1-rider;document.querySelectorAll('#rd').forEach(b=>b.textContent='Rider: '+(rider?'Avatar':'Raccoon'))}
+function swap(){rider=1-rider;document.querySelectorAll('#rd').forEach(b=>b.textContent='Rider: '+(rider?'Avatar':'Cat'))}
 document.getElementById('rd').onclick=swap;
 addEventListener('keydown',e=>{keys[e.code]=1;if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault();
  if(e.code==='Enter'&&mode!=='play')start();if(e.code==='KeyC')swap();if(e.code==='ArrowUp'||e.code==='KeyW')jump()});
