@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neon Parallax Drift</title>
+    <title>SUNSET DRIFT</title>
     <style>
         /* Reset and Base Styles */
         * {
@@ -98,7 +98,7 @@
         /* Neon Horizon Light Glow Overlay */
         .horizon-glow {
             position: absolute;
-            bottom: 45%;
+            bottom: 55%;
             width: 100%;
             height: 10%;
             background: linear-gradient(to top, #ff007f, transparent);
@@ -128,20 +128,21 @@
         }
 
         /* Glow Text Effects */
-        .neon-title {
-            font-size: 3.5rem;
-            text-transform: uppercase;
-            font-weight: 900;
-            letter-spacing: 6px;
-            color: #fff;
-            text-shadow: 
-                0 0 5px #fff,
-                0 0 10px #ff007f,
-                0 0 20px #ff007f,
-                0 0 40px #ff007f;
-            margin-bottom: 8px;
-            font-style: italic;
-        }
+        
+.neon-title {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 4px;
+    color: #FFF7F2;
+    text-shadow:
+        0 1px 2px rgba(255, 247, 242, 0.8),
+        0 0 8px rgba(255, 111, 173, 0.65),
+        0 0 18px rgba(188, 167, 255, 0.4);
+    margin-bottom: 8px;
+    font-style: normal;
+}
+
 
         .neon-subtitle {
             font-size: 1.1rem;
@@ -192,9 +193,9 @@
 
         <!-- Foreground Interface -->
         <div class="content-card">
-            <h1 class="neon-title">SUNSET DRIFT</h1>
-            <p class="neon-subtitle">Neon Parallax Engine v1.0</p>
-            <a href="#" class="drift-btn">Enter Cruise Mode</a>
+            <h1 class="neon-title">HUSTLE CITY</h1>
+            <p class="neon-subtitle">Cruise the city and make money</p>
+            <a href="game/" class="drift-btn">Enter Cruise Mode</a>
         </div>
     </div>
 
