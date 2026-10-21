@@ -312,7 +312,7 @@ renderHow();
 function selectCharacter(n){rider=n;document.querySelectorAll('[data-character]').forEach(b=>b.classList.toggle('selected',+b.dataset.character===rider))}
 
 // ---- character photo popup: opens when a character is chosen, closes with the Close button ----
-const CHAR_PHOTOS=['ssd2.jpg','ssd3.jpg','ssd4.jpg']; // Boss Babe, Beeper, Mack
+const CHAR_PHOTOS=['ssd3.jpg','ssd2.jpg','ssd4.jpg']; // Boss Babe, Beeper, Mack
 CHAR_PHOTOS.forEach(src=>{new Image().src=src});
 let photoOpener=null;
 function showPhoto(n){
