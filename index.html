@@ -1,9 +1,41 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUNSET DRIFT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+    <title>Hustle City — Cruise the City, Explore & Make Money</title>
+
+    <meta name="description" content="Welcome to Hustle City, an arcade-style city exploration game. Cruise the streets, explore the world, and build your hustle in a colorful game experience created by Saneca Mack.">
+
+    <meta name="author" content="Saneca Mack">
+    <meta name="application-name" content="Hustle City">
+    <meta name="theme-color" content="#190D25">
+
+    <meta name="robots" content="index, follow">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- Canonical URL: replace with your actual published game URL -->
+    <!-- <link rel="canonical" href="https://YOUR-DOMAIN.example/"> -->
+
+    <!-- Open Graph: social sharing previews -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Hustle City — Cruise the City, Explore & Make Money">
+    <meta property="og:description" content="Cruise the streets, explore the world, and build your hustle in Hustle City, an arcade-style game by Saneca Mack.">
+    <meta property="og:image" content="ssd1.jpg">
+
+    <!-- X / Twitter sharing preview -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Hustle City">
+    <meta name="twitter:description" content="Cruise the city, explore your world, and make your move.">
+    <meta name="twitter:image" content="ssd1.jpg">
+
+    <style>
+        /* Keep your existing CSS here */
+    </style>
+</head>
+
     <style>
         /* Reset and Base Styles */
         * {
@@ -179,6 +211,100 @@
             box-shadow: 0 0 30px #ff007f, 0 0 10px #00f2fe;
             text-shadow: none;
         }
+
+        
+/* Bottom slideshow */
+.ssd-slideshow {
+    position: absolute;
+    bottom: max(18px, env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 12;
+    width: min(88%, 680px);
+    text-align: center;
+}
+
+.ssd-slideshow-label {
+    color: #FFF7F2;
+    font-size: 12px;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+}
+
+.ssd-slideshow-track {
+    position: relative;
+    height: clamp(70px, 14vh, 120px);
+    overflow: hidden;
+    border: 1px solid #FF6FAD;
+    border-radius: 12px;
+    background: #190D25;
+}
+
+.ssd-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity .8s ease;
+}
+
+.ssd-slide.active {
+    opacity: 1;
+}
+
+.ssd-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.ssd-dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: #9B8CA5;
+}
+
+.ssd-dot.active {
+    background: #FF6FAD;
+}
+
+@media (max-width: 480px) {
+    .ssd-slideshow {
+        width: calc(100% - 32px);
+    }
+
+    .content-card {
+        max-width: calc(100% - 32px);
+        box-sizing: border-box;
+        padding: 24px 16px;
+    }
+
+    .neon-title {
+        letter-spacing: 2px;
+    }
+}
+
+@media (max-height: 650px) {
+    .ssd-slideshow-track {
+        height: 55px;
+    }
+
+    .ssd-slideshow-label,
+    .ssd-dots {
+        display: none;
+    }
+
+    .content-card {
+        padding: 16px;
+    }
+}
+
     </style>
     <!-- Importing a futuristic geometric tech font -->
     <link href="https://googleapis.com" rel="stylesheet">
@@ -196,8 +322,59 @@
             <h1 class="neon-title">HUSTLE CITY</h1>
             <p class="neon-subtitle">Cruise the city and make money</p>
             <a href="game/" class="drift-btn">Enter Cruise Mode</a>
+       
+        </div>
+
+        <div class="ssd-slideshow">
+            <p class="ssd-slideshow-label">EXPLORE THE WORLD</p>
+
+            <div class="ssd-slideshow-track">
+                <img class="ssd-slide active" src="ssd2.jpg" alt="Game preview 1">
+                <img class="ssd-slide" src="ssd3.jpg" alt="Game preview 2">
+                <img class="ssd-slide" src="ssd4.jpg" alt="Game preview 3">
+            </div>
+
+            <div class="ssd-dots">
+                <button class="ssd-dot active" type="button" aria-label="Show preview 1"></button>
+                <button class="ssd-dot" type="button" aria-label="Show preview 2"></button>
+                <button class="ssd-dot" type="button" aria-label="Show preview 3"></button>
+            </div>
         </div>
     </div>
+
+
+<script>
+(() => {
+    const slides = document.querySelectorAll('.ssd-slide');
+    const dots = document.querySelectorAll('.ssd-dot');
+
+    if (!slides.length || slides.length !== dots.length) return;
+
+    let current = 0;
+
+    function showSlide(index) {
+        current = index;
+
+        slides.forEach((slide, i) =>
+            slide.classList.toggle('active', i === current)
+        );
+
+        dots.forEach((dot, i) =>
+            dot.classList.toggle('active', i === current)
+        );
+    }
+
+    dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => showSlide(i));
+    });
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        setInterval(() => {
+            showSlide((current + 1) % slides.length);
+        }, 3500);
+    }
+})();
+</script>
 
 </body>
 </html>
