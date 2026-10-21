@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,18 +7,16 @@
     <title>Hustle City — Cruise the City, Explore & Make Money</title>
 
     <meta name="description" content="Welcome to Hustle City, an arcade-style city exploration game. Cruise the streets, explore the world, and build your hustle in a colorful game experience created by Saneca Mack.">
-
     <meta name="author" content="Saneca Mack">
     <meta name="application-name" content="Hustle City">
     <meta name="theme-color" content="#190D25">
-
     <meta name="robots" content="index, follow">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
     <!-- Canonical URL: replace with your actual published game URL -->
     <!-- <link rel="canonical" href="https://YOUR-DOMAIN.example/"> -->
 
-    <!-- Open Graph: social sharing previews -->
+    <!-- Open Graph: social sharing previews (use a full https:// URL here once published) -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Hustle City — Cruise the City, Explore & Make Money">
     <meta property="og:description" content="Cruise the streets, explore the world, and build your hustle in Hustle City, an arcade-style game by Saneca Mack.">
@@ -31,17 +28,17 @@
     <meta name="twitter:description" content="Cruise the city, explore your world, and make your move.">
     <meta name="twitter:image" content="ssd1.jpg">
 
-    <style>
-        /* Keep your existing CSS here */
-    </style>
-</head>
+    <!-- Futuristic geometric tech font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
         /* Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
-            box-index: border-index;
+            box-sizing: border-box;
         }
 
         body {
@@ -49,6 +46,7 @@
             overflow: hidden;
             font-family: 'Orbitron', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             height: 100vh;
+            height: 100dvh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -60,6 +58,7 @@
             position: relative;
             width: 100%;
             height: 100%;
+            overflow: hidden;
             background: linear-gradient(to bottom, #0b031a 0%, #240a34 50%, #510a47 70%, #11021f 100%);
             display: flex;
             flex-direction: column;
@@ -72,42 +71,44 @@
         .sunset {
             position: absolute;
             top: 15%;
+            left: 50%;
+            margin-left: -160px;
             width: 320px;
             height: 320px;
             background: linear-gradient(to bottom, #ffe600 0%, #ff007f 50%, #7000ff 100%);
             border-radius: 50%;
             box-shadow: 0 0 60px rgba(255, 0, 127, 0.6), 0 0 120px rgba(255, 230, 0, 0.3);
-            /* Mask to create the iconic 80s horizontal sunset ridges */
-            -webkit-mask-image: linear-gradient(to bottom, 
-                white 0%, white 60%, 
-                transparent 60%, transparent 63%, 
-                white 63%, white 70%, 
-                transparent 70%, transparent 74%, 
-                white 74%, white 82%, 
-                transparent 82%, transparent 87%, 
-                white 87%, white 93%, 
-                transparent 93%, transparent 97%, 
+            -webkit-mask-image: linear-gradient(to bottom,
+                white 0%, white 60%,
+                transparent 60%, transparent 63%,
+                white 63%, white 70%,
+                transparent 70%, transparent 74%,
+                white 74%, white 82%,
+                transparent 82%, transparent 87%,
+                white 87%, white 93%,
+                transparent 93%, transparent 97%,
                 white 97%, white 100%);
-            mask-image: linear-gradient(to bottom, 
-                white 0%, white 60%, 
-                transparent 60%, transparent 63%, 
-                white 63%, white 70%, 
-                transparent 70%, transparent 74%, 
-                white 74%, white 82%, 
-                transparent 82%, transparent 87%, 
-                white 87%, white 93%, 
-                transparent 93%, transparent 97%, 
+            mask-image: linear-gradient(to bottom,
+                white 0%, white 60%,
+                transparent 60%, transparent 63%,
+                white 63%, white 70%,
+                transparent 70%, transparent 74%,
+                white 74%, white 82%,
+                transparent 82%, transparent 87%,
+                white 87%, white 93%,
+                transparent 93%, transparent 97%,
                 white 97%, white 100%);
             z-index: 1;
         }
 
-        /* Infinite 3D Drifting Grid Floor */
+        /* Drifting Grid Floor */
         .grid-floor {
             position: absolute;
             bottom: 0;
+            left: -50%;
             width: 200%;
             height: 50%;
-            background-image: 
+            background-image:
                 linear-gradient(to right, rgba(0, 242, 254, 0.15) 2px, transparent 2px),
                 linear-gradient(to bottom, rgba(255, 0, 127, 0.25) 2px, transparent 2px);
             background-size: 60px 60px;
@@ -119,15 +120,11 @@
         }
 
         @keyframes gridDrift {
-            0% {
-                background-position: 0 0;
-            }
-            100% {
-                background-position: 0 60px;
-            }
+            0%   { background-position: 0 0; }
+            100% { background-position: 0 60px; }
         }
 
-        /* Neon Horizon Light Glow Overlay */
+        /* Horizon Glow */
         .horizon-glow {
             position: absolute;
             bottom: 55%;
@@ -139,7 +136,7 @@
             z-index: 1;
         }
 
-        /* Floating Cyberpunk Centerpiece UI */
+        /* Centerpiece Card */
         .content-card {
             position: relative;
             z-index: 10;
@@ -149,32 +146,28 @@
             border-radius: 16px;
             border: 2px solid #00f2fe;
             box-shadow: 0 0 25px rgba(0, 242, 254, 0.4), inset 0 0 15px rgba(0, 242, 254, 0.2);
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
-            transform: translateZ(20px);
             animation: floatCard 4s ease-in-out infinite;
         }
 
         @keyframes floatCard {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-12px); }
         }
 
-        /* Glow Text Effects */
-        
-.neon-title {
-    font-size: clamp(2rem, 6vw, 3.5rem);
-    text-transform: uppercase;
-    font-weight: 900;
-    letter-spacing: 4px;
-    color: #FFF7F2;
-    text-shadow:
-        0 1px 2px rgba(255, 247, 242, 0.8),
-        0 0 8px rgba(255, 111, 173, 0.65),
-        0 0 18px rgba(188, 167, 255, 0.4);
-    margin-bottom: 8px;
-    font-style: normal;
-}
-
+        .neon-title {
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: #FFF7F2;
+            text-shadow:
+                0 1px 2px rgba(255, 247, 242, 0.8),
+                0 0 8px rgba(255, 111, 173, 0.65),
+                0 0 18px rgba(188, 167, 255, 0.4);
+            margin-bottom: 8px;
+        }
 
         .neon-subtitle {
             font-size: 1.1rem;
@@ -185,7 +178,6 @@
             margin-bottom: 30px;
         }
 
-        /* Cyberpunk Button with Active Border Trail */
         .drift-btn {
             display: inline-block;
             padding: 14px 36px;
@@ -209,105 +201,111 @@
             background: #ff007f;
             color: #000;
             box-shadow: 0 0 30px #ff007f, 0 0 10px #00f2fe;
-            text-shadow: none;
         }
 
-        
-/* Bottom slideshow */
-.ssd-slideshow {
-    position: absolute;
-    bottom: max(18px, env(safe-area-inset-bottom));
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 12;
-    width: min(88%, 680px);
-    text-align: center;
-}
+        /* Bottom slideshow */
+        .ssd-slideshow {
+            position: absolute;
+            bottom: max(18px, env(safe-area-inset-bottom));
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 12;
+            width: min(88%, 680px);
+            text-align: center;
+        }
 
-.ssd-slideshow-label {
-    color: #FFF7F2;
-    font-size: 12px;
-    letter-spacing: 3px;
-    margin-bottom: 8px;
-}
+        .ssd-slideshow-label {
+            color: #FFF7F2;
+            font-size: 12px;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+        }
 
-.ssd-slideshow-track {
-    position: relative;
-    height: clamp(70px, 14vh, 120px);
-    overflow: hidden;
-    border: 1px solid #FF6FAD;
-    border-radius: 12px;
-    background: #190D25;
-}
+        .ssd-slideshow-track {
+            position: relative;
+            height: clamp(70px, 14vh, 120px);
+            overflow: hidden;
+            border: 1px solid #FF6FAD;
+            border-radius: 12px;
+            background: #190D25;
+        }
 
-.ssd-slide {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity .8s ease;
-}
+        .ssd-slide {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity .8s ease;
+        }
 
-.ssd-slide.active {
-    opacity: 1;
-}
+        .ssd-slide.active {
+            opacity: 1;
+        }
 
-.ssd-dots {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 8px;
-}
+        .ssd-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
 
-.ssd-dot {
-    width: 8px;
-    height: 8px;
-    padding: 0;
-    border: 0;
-    border-radius: 50%;
-    background: #9B8CA5;
-}
+        .ssd-dot {
+            width: 10px;
+            height: 10px;
+            padding: 0;
+            border: 0;
+            border-radius: 50%;
+            background: #9B8CA5;
+            cursor: pointer;
+        }
 
-.ssd-dot.active {
-    background: #FF6FAD;
-}
+        .ssd-dot.active {
+            background: #FF6FAD;
+        }
 
-@media (max-width: 480px) {
-    .ssd-slideshow {
-        width: calc(100% - 32px);
-    }
+        @media (max-width: 480px) {
+            .ssd-slideshow {
+                width: calc(100% - 32px);
+            }
 
-    .content-card {
-        max-width: calc(100% - 32px);
-        box-sizing: border-box;
-        padding: 24px 16px;
-    }
+            .content-card {
+                max-width: calc(100% - 32px);
+                padding: 24px 16px;
+            }
 
-    .neon-title {
-        letter-spacing: 2px;
-    }
-}
+            .neon-title {
+                letter-spacing: 2px;
+            }
 
-@media (max-height: 650px) {
-    .ssd-slideshow-track {
-        height: 55px;
-    }
+            .neon-subtitle {
+                letter-spacing: 2px;
+            }
+        }
 
-    .ssd-slideshow-label,
-    .ssd-dots {
-        display: none;
-    }
+        @media (max-height: 650px) {
+            .ssd-slideshow-track {
+                height: 55px;
+            }
 
-    .content-card {
-        padding: 16px;
-    }
-}
+            .ssd-slideshow-label,
+            .ssd-dots {
+                display: none;
+            }
 
+            .content-card {
+                padding: 16px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .grid-floor,
+            .content-card {
+                animation: none;
+            }
+        }
     </style>
-    <!-- Importing a futuristic geometric tech font -->
-    <link href="https://googleapis.com" rel="stylesheet">
 </head>
 <body>
 
@@ -322,26 +320,27 @@
             <h1 class="neon-title">HUSTLE CITY</h1>
             <p class="neon-subtitle">Cruise the city and make money</p>
             <a href="game/" class="drift-btn">Enter Cruise Mode</a>
-       
         </div>
 
+        <!-- Slideshow: ssd1–ssd4 -->
         <div class="ssd-slideshow">
             <p class="ssd-slideshow-label">EXPLORE THE WORLD</p>
 
             <div class="ssd-slideshow-track">
-                <img class="ssd-slide active" src="ssd2.jpg" alt="Game preview 1">
-                <img class="ssd-slide" src="ssd3.jpg" alt="Game preview 2">
-                <img class="ssd-slide" src="ssd4.jpg" alt="Game preview 3">
+                <img class="ssd-slide active" src="ssd1.jpg" alt="Game preview 1">
+                <img class="ssd-slide" src="ssd2.jpg" alt="Game preview 2" loading="lazy">
+                <img class="ssd-slide" src="ssd3.jpg" alt="Game preview 3" loading="lazy">
+                <img class="ssd-slide" src="ssd4.jpg" alt="Game preview 4" loading="lazy">
             </div>
 
             <div class="ssd-dots">
                 <button class="ssd-dot active" type="button" aria-label="Show preview 1"></button>
                 <button class="ssd-dot" type="button" aria-label="Show preview 2"></button>
                 <button class="ssd-dot" type="button" aria-label="Show preview 3"></button>
+                <button class="ssd-dot" type="button" aria-label="Show preview 4"></button>
             </div>
         </div>
     </div>
-
 
 <script>
 (() => {
@@ -351,28 +350,29 @@
     if (!slides.length || slides.length !== dots.length) return;
 
     let current = 0;
+    let timer = null;
+    const INTERVAL = 3500;
 
     function showSlide(index) {
         current = index;
+        slides.forEach((slide, i) => slide.classList.toggle('active', i === current));
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+    }
 
-        slides.forEach((slide, i) =>
-            slide.classList.toggle('active', i === current)
-        );
-
-        dots.forEach((dot, i) =>
-            dot.classList.toggle('active', i === current)
-        );
+    function startAutoplay() {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        clearInterval(timer);
+        timer = setInterval(() => showSlide((current + 1) % slides.length), INTERVAL);
     }
 
     dots.forEach((dot, i) => {
-        dot.addEventListener('click', () => showSlide(i));
+        dot.addEventListener('click', () => {
+            showSlide(i);
+            startAutoplay(); // restart the timer so the slide you picked doesn't change instantly
+        });
     });
 
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        setInterval(() => {
-            showSlide((current + 1) % slides.length);
-        }, 3500);
-    }
+    startAutoplay();
 })();
 </script>
 
