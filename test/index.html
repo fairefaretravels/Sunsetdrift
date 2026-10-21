@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Parallax Drift</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-index: border-index;
+        }
+
+        body {
+            background-color: #05010c;
+            overflow: hidden;
+            font-family: 'Orbitron', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        /* Synthwave Stage Container */
+        .stage {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #0b031a 0%, #240a34 50%, #510a47 70%, #11021f 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        /* Retro Neon Sunset */
+        .sunset {
+            position: absolute;
+            top: 15%;
+            width: 320px;
+            height: 320px;
+            background: linear-gradient(to bottom, #ffe600 0%, #ff007f 50%, #7000ff 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 60px rgba(255, 0, 127, 0.6), 0 0 120px rgba(255, 230, 0, 0.3);
+            /* Mask to create the iconic 80s horizontal sunset ridges */
+            -webkit-mask-image: linear-gradient(to bottom, 
+                white 0%, white 60%, 
+                transparent 60%, transparent 63%, 
+                white 63%, white 70%, 
+                transparent 70%, transparent 74%, 
+                white 74%, white 82%, 
+                transparent 82%, transparent 87%, 
+                white 87%, white 93%, 
+                transparent 93%, transparent 97%, 
+                white 97%, white 100%);
+            mask-image: linear-gradient(to bottom, 
+                white 0%, white 60%, 
+                transparent 60%, transparent 63%, 
+                white 63%, white 70%, 
+                transparent 70%, transparent 74%, 
+                white 74%, white 82%, 
+                transparent 82%, transparent 87%, 
+                white 87%, white 93%, 
+                transparent 93%, transparent 97%, 
+                white 97%, white 100%);
+            z-index: 1;
+        }
+
+        /* Infinite 3D Drifting Grid Floor */
+        .grid-floor {
+            position: absolute;
+            bottom: 0;
+            width: 200%;
+            height: 50%;
+            background-image: 
+                linear-gradient(to right, rgba(0, 242, 254, 0.15) 2px, transparent 2px),
+                linear-gradient(to bottom, rgba(255, 0, 127, 0.25) 2px, transparent 2px);
+            background-size: 60px 60px;
+            background-position: center top;
+            transform: rotateX(75deg) translateY(-50px);
+            transform-origin: top center;
+            animation: gridDrift 2.5s linear infinite;
+            z-index: 2;
+        }
+
+        @keyframes gridDrift {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 0 60px;
+            }
+        }
+
+        /* Neon Horizon Light Glow Overlay */
+        .horizon-glow {
+            position: absolute;
+            bottom: 45%;
+            width: 100%;
+            height: 10%;
+            background: linear-gradient(to top, #ff007f, transparent);
+            opacity: 0.3;
+            filter: blur(20px);
+            z-index: 1;
+        }
+
+        /* Floating Cyberpunk Centerpiece UI */
+        .content-card {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            background: rgba(11, 3, 26, 0.65);
+            padding: 40px 60px;
+            border-radius: 16px;
+            border: 2px solid #00f2fe;
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.4), inset 0 0 15px rgba(0, 242, 254, 0.2);
+            backdrop-filter: blur(10px);
+            transform: translateZ(20px);
+            animation: floatCard 4s ease-in-out infinite;
+        }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+        }
+
+        /* Glow Text Effects */
+        .neon-title {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #fff;
+            text-shadow: 
+                0 0 5px #fff,
+                0 0 10px #ff007f,
+                0 0 20px #ff007f,
+                0 0 40px #ff007f;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .neon-subtitle {
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+            color: #00f2fe;
+            text-shadow: 0 0 8px rgba(0, 242, 254, 0.8);
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        /* Cyberpunk Button with Active Border Trail */
+        .drift-btn {
+            display: inline-block;
+            padding: 14px 36px;
+            font-size: 1rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #fff;
+            background: transparent;
+            border: 2px solid #ff007f;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .drift-btn:hover {
+            background: #ff007f;
+            color: #000;
+            box-shadow: 0 0 30px #ff007f, 0 0 10px #00f2fe;
+            text-shadow: none;
+        }
+    </style>
+    <!-- Importing a futuristic geometric tech font -->
+    <link href="https://googleapis.com" rel="stylesheet">
+</head>
+<body>
+
+    <div class="stage">
+        <!-- Outrun Aesthetic Assets -->
+        <div class="sunset"></div>
+        <div class="horizon-glow"></div>
+        <div class="grid-floor"></div>
+
+        <!-- Foreground Interface -->
+        <div class="content-card">
+            <h1 class="neon-title">SUNSET DRIFT</h1>
+            <p class="neon-subtitle">Neon Parallax Engine v1.0</p>
+            <a href="#" class="drift-btn">Enter Cruise Mode</a>
+        </div>
+    </div>
+
+</body>
+</html>
