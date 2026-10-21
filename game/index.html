@@ -147,6 +147,14 @@ canvas{display:block;width:100%;height:100%;background:#000;border-radius:14px;t
   .character-icon{width:26px;height:26px}
   .below-buttons{margin-top:8px;padding:7px 10px}
 }
+
+/* ---------- character photo popup ---------- */
+.photo-modal{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:max(12px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) max(12px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));background:rgba(5,2,14,.88)}
+.photo-card{width:min(100%,520px);max-height:100%;display:flex;flex-direction:column;gap:10px;padding:12px;border:1px solid #ff65c8;border-radius:18px;background:linear-gradient(145deg,#10091ff5,#1b0b30f7);box-shadow:0 0 22px #ff4f8b66,0 0 50px #6cecff22}
+.photo-card img{display:block;width:100%;min-height:0;max-height:calc(var(--vh)*100 - 170px);object-fit:contain;border-radius:12px;background:#10091f}
+.photo-name{text-align:center;font-weight:900;font-size:18px;letter-spacing:1.5px;text-transform:uppercase;color:#fff;text-shadow:0 0 10px #ff4f8b}
+.photo-close{min-height:46px;background:linear-gradient(90deg,#ff4f9b,#b74cff 55%,#26cfff)}
+
 @media(max-width:340px){.character-choice small{display:none}}
 </style>
 </head>
@@ -222,6 +230,16 @@ canvas{display:block;width:100%;height:100%;background:#000;border-radius:14px;t
 
   <small id="exploreHelp">Ride: arrows or A/D, drift with Space/Shift. Explore: use A/D or arrows to walk, E or Interact near a location.</small>
 </main>
+
+<!-- character photo popup -->
+<div id="photoModal" class="photo-modal" role="dialog" aria-modal="true" aria-labelledby="photoName" hidden>
+  <div class="photo-card">
+    <img id="photoImg" src="" alt="">
+    <div id="photoName" class="photo-name"></div>
+    <button id="photoClose" class="photo-close" type="button">CLOSE</button>
+  </div>
+</div>
+
 <script>
 (()=>{
 'use strict';
@@ -292,14 +310,38 @@ $('howNext').onclick=()=>{if(howPage<2){howPage++;renderHow()}else finishHow()};
 $('skipHow').onclick=finishHow;
 renderHow();
 function selectCharacter(n){rider=n;document.querySelectorAll('[data-character]').forEach(b=>b.classList.toggle('selected',+b.dataset.character===rider))}
-document.querySelectorAll('[data-character]').forEach(b=>b.addEventListener('click',()=>selectCharacter(+b.dataset.character)));
+
+// ---- character photo popup: opens when a character is chosen, closes with the Close button ----
+const CHAR_PHOTOS=['ssd2.jpg','ssd3.jpg','ssd4.jpg']; // Boss Babe, Beeper, Mack
+CHAR_PHOTOS.forEach(src=>{new Image().src=src});
+let photoOpener=null;
+function showPhoto(n){
+  $('photoImg').src=CHAR_PHOTOS[n];
+  $('photoImg').alt=RN[n]+' character photo';
+  $('photoName').textContent=RN[n];
+  photoOpener=document.activeElement;
+  $('photoModal').hidden=false;
+  $('photoClose').focus();
+}
+function closePhoto(){
+  $('photoModal').hidden=true;
+  if(photoOpener&&photoOpener.focus)photoOpener.focus();
+}
+$('photoClose').onclick=closePhoto;
+$('photoModal').addEventListener('click',e=>{if(e.target===$('photoModal'))closePhoto()});
+document.querySelectorAll('[data-character]').forEach(b=>b.addEventListener('click',()=>{
+  const n=+b.dataset.character;
+  selectCharacter(n);
+  showPhoto(n);
+}));
+
 $('chooseBoard').onclick=()=>{vehicle='skateboard';$('chooseBoard').classList.add('selected');$('chooseCar').classList.remove('selected')};
 $('chooseCar').onclick=()=>{vehicle='car';$('chooseCar').classList.add('selected');$('chooseBoard').classList.remove('selected')};
 function swap(){selectCharacter((rider+1)%3);$('rd').textContent='Rider: '+RN[rider]}
 $('again').onclick=start;
 $('rd').onclick=swap;
 
-addEventListener('keydown',e=>{keys[e.code]=1;if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault();if(e.code==='Enter'&&mode==='title'&&!(e.target&&e.target.tagName==='BUTTON')){if(screen==='howto')finishHow();else start()}if(e.code==='KeyC'&&mode!=='explore'&&screen==='game')selectCharacter((rider+1)%3);if(e.code==='ArrowUp'||e.code==='KeyW')jump();if(e.code==='KeyE'&&mode==='explore')interact();if(e.code==='KeyR'&&mode==='explore')toggleExplore()});
+addEventListener('keydown',e=>{if(!$('photoModal').hidden){if(e.code==='Escape')closePhoto();return}keys[e.code]=1;if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault();if(e.code==='Enter'&&mode==='title'&&!(e.target&&e.target.tagName==='BUTTON')){if(screen==='howto')finishHow();else start()}if(e.code==='KeyC'&&mode!=='explore'&&screen==='game')selectCharacter((rider+1)%3);if(e.code==='ArrowUp'||e.code==='KeyW')jump();if(e.code==='KeyE'&&mode==='explore')interact();if(e.code==='KeyR'&&mode==='explore')toggleExplore()});
 addEventListener('keyup',e=>keys[e.code]=0);
 addEventListener('blur',()=>{keys={}});
 
