@@ -1,0 +1,28 @@
+
+{
+  "id": "/",
+  "name": "Hustle City — Sunset Drift",
+  "short_name": "Hustle City",
+  "description": "Cruise the city, explore the streets, and make your move.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#100719",
+  "theme_color": "#190D25",
+  "categories": ["games", "entertainment"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
