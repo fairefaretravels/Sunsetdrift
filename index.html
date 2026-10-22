@@ -22,6 +22,14 @@
     <meta name="twitter:description" content="Your city. Your move.">
     <meta name="twitter:image" content="ssd1.jpg">
 
+    
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/icons/192.png" type="image/svg+xml">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Hustle City">
+<link rel="apple-touch-icon" href="/icons/152.png">
+
     <style>
         :root {
             --plum: #190D25;
@@ -743,5 +751,17 @@
         startSlideshow();
     })();
     </script>
+    
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/service-worker.js")
+      .catch(error => {
+        console.error("Hustle City app setup failed:", error);
+      });
+  });
+}
+</script>
+
 </body>
 </html>
