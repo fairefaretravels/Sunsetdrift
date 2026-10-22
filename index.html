@@ -1,0 +1,747 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+    <title>Hustle City — Cruise the City, Explore & Make Money</title>
+    <meta name="description" content="Enter Hustle City, an arcade-style city exploration game. Cruise the streets, explore the world, and make your move. Created by Saneca Mack.">
+    <meta name="author" content="Saneca Mack">
+    <meta name="application-name" content="Hustle City">
+    <meta name="theme-color" content="#190D25">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Hustle City">
+    <meta property="og:description" content="Your city. Your move. Enter Hustle City and explore the world.">
+    <meta property="og:image" content="ssd1.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Hustle City">
+    <meta name="twitter:description" content="Your city. Your move.">
+    <meta name="twitter:image" content="ssd1.jpg">
+
+    <style>
+        :root {
+            --plum: #190D25;
+            --deep-plum: #100719;
+            --pink: #FF6FAD;
+            --lavender: #BCA7FF;
+            --peach: #FFB58A;
+            --white: #FFF7F2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            min-height: 100%;
+            background: var(--deep-plum);
+        }
+
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
+            background: var(--deep-plum);
+            color: var(--white);
+            font-family: "Trebuchet MS", Arial, sans-serif;
+        }
+
+        button, a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .stage {
+            position: relative;
+            isolation: isolate;
+            min-height: 100vh;
+            min-height: 100dvh;
+            width: 100%;
+            padding:
+                max(18px, env(safe-area-inset-top))
+                16px
+                max(12px, env(safe-area-inset-bottom));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at 50% 42%,
+                    rgba(255,111,173,.13), transparent 45%),
+                linear-gradient(
+                    to bottom,
+                    #21102F 0%,
+                    #3A1746 42%,
+                    #572044 65%,
+                    #190D25 100%
+                );
+        }
+
+        /* Animated sunset backdrop */
+        .sunset {
+            position: absolute;
+            z-index: -3;
+            top: 7%;
+            left: 50%;
+            width: min(72vw, 340px);
+            aspect-ratio: 1;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            background: linear-gradient(
+                to bottom,
+                var(--peach) 0%,
+                var(--pink) 48%,
+                var(--lavender) 100%
+            );
+            box-shadow:
+                0 0 38px rgba(255,111,173,.38),
+                0 0 100px rgba(188,167,255,.20);
+            animation: sunsetPulse 5s ease-in-out infinite alternate;
+        }
+
+        .sunset::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0 57%,
+                rgba(25,13,37,.0) 57% 61%,
+                var(--deep-plum) 61% 64%,
+                transparent 64% 70%,
+                var(--deep-plum) 70% 74%,
+                transparent 74% 82%,
+                var(--deep-plum) 82% 87%,
+                transparent 87% 94%,
+                var(--deep-plum) 94% 97%,
+                transparent 97%
+            );
+            opacity: .82;
+        }
+
+        @keyframes sunsetPulse {
+            from {
+                filter: saturate(1);
+                box-shadow:
+                    0 0 30px rgba(255,111,173,.28),
+                    0 0 70px rgba(188,167,255,.16);
+            }
+            to {
+                filter: saturate(1.25);
+                box-shadow:
+                    0 0 50px rgba(255,111,173,.5),
+                    0 0 125px rgba(188,167,255,.3);
+            }
+        }
+
+        /* Moving perspective grid */
+        .grid-floor {
+            position: absolute;
+            z-index: -2;
+            left: -50%;
+            bottom: -17%;
+            width: 200%;
+            height: 55%;
+            background-image:
+                linear-gradient(
+                    to right,
+                    rgba(188,167,255,.35) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    to bottom,
+                    rgba(255,111,173,.42) 1px,
+                    transparent 1px
+                );
+            background-size: 48px 42px;
+            transform: perspective(220px) rotateX(54deg);
+            transform-origin: center top;
+            mask-image: linear-gradient(to bottom, transparent, black 22%, black);
+            animation: gridDrift 1.6s linear infinite;
+        }
+
+        @keyframes gridDrift {
+            from { background-position: 0 0; }
+            to { background-position: 0 42px; }
+        }
+
+        .horizon-glow {
+            position: absolute;
+            z-index: -1;
+            left: 0;
+            right: 0;
+            top: 39%;
+            height: 16%;
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                rgba(255,111,173,.24),
+                transparent
+            );
+            filter: blur(18px);
+            pointer-events: none;
+        }
+
+        /* Main title card */
+        .content-card {
+            position: relative;
+            z-index: 2;
+            width: min(100%, 640px);
+            margin-block: auto 0;
+            padding: clamp(18px, 4vw, 32px);
+            text-align: center;
+            border: 1px solid rgba(255,111,173,.75);
+            border-radius: 22px;
+            background: rgba(25,13,37,.84);
+            box-shadow:
+                0 0 28px rgba(255,111,173,.17),
+                inset 0 0 24px rgba(188,167,255,.07);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            animation: cardEnter .8s cubic-bezier(.2,.8,.2,1) both;
+        }
+
+        @keyframes cardEnter {
+            from {
+                opacity: 0;
+                transform: translateY(22px) scale(.97);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .hero-image {
+            display: block;
+            width: 100%;
+            height: clamp(90px, 19vh, 155px);
+            object-fit: cover;
+            object-position: center;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,181,138,.65);
+            border-radius: 13px;
+            box-shadow: 0 0 20px rgba(255,111,173,.15);
+        }
+
+        .neon-title {
+            font-size: clamp(2rem, 7vw, 3.5rem);
+            line-height: 1.08;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: clamp(2px, .8vw, 4px);
+            color: var(--white);
+            text-shadow:
+                0 1px 2px rgba(255,247,242,.8),
+                0 0 8px rgba(255,111,173,.65),
+                0 0 18px rgba(188,167,255,.4);
+            margin-bottom: 12px;
+        }
+
+        .neon-subtitle {
+            color: var(--peach);
+            font-size: clamp(.85rem, 2.7vw, 1.05rem);
+            letter-spacing: 1.5px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .tagline {
+            display: block;
+            margin-top: 7px;
+            color: var(--lavender);
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+        }
+
+        /* Arcade start button */
+        .drift-btn {
+            position: relative;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: min(100%, 330px);
+            min-height: 54px;
+            padding: 14px 22px;
+            overflow: hidden;
+            border: 1px solid #FFD2E5;
+            border-radius: 12px;
+            color: #25112D;
+            background: linear-gradient(
+                110deg,
+                var(--pink),
+                var(--peach),
+                var(--lavender)
+            );
+            background-size: 200% 100%;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: .9rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            box-shadow:
+                0 0 14px rgba(255,111,173,.4),
+                0 5px 0 rgba(90,34,77,.65);
+            transition:
+                transform .16s ease,
+                box-shadow .16s ease,
+                filter .16s ease,
+                background-position .35s ease;
+            animation: buttonShimmer 4s ease-in-out infinite;
+        }
+
+        @keyframes buttonShimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .drift-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow:
+                0 0 24px rgba(255,111,173,.7),
+                0 0 40px rgba(188,167,255,.28),
+                0 7px 0 rgba(90,34,77,.65);
+            filter: brightness(1.08);
+        }
+
+        .drift-btn:active {
+            transform: translateY(3px) scale(.98);
+            box-shadow: 0 0 12px rgba(255,111,173,.5);
+        }
+
+        .drift-btn:focus-visible,
+        .ssd-dot:focus-visible {
+            outline: 3px solid var(--white);
+            outline-offset: 4px;
+        }
+
+        .hint {
+            margin-top: 17px;
+            color: rgba(255,247,242,.74);
+            font-size: .76rem;
+            line-height: 1.5;
+        }
+
+        /* Bottom slideshow */
+        .ssd-slideshow {
+            position: relative;
+            z-index: 3;
+            width: min(100%, 680px);
+            flex-shrink: 0;
+            text-align: center;
+            margin-top: 0;
+            animation: slideshowEnter .9s .15s ease both;
+        }
+
+        @keyframes slideshowEnter {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ssd-slideshow-label {
+            color: var(--white);
+            font-size: .68rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+            text-shadow: 0 0 10px rgba(255,111,173,.65);
+        }
+
+        .ssd-slideshow-track {
+            position: relative;
+            height: clamp(64px, 12vh, 105px);
+            overflow: hidden;
+            border: 1px solid rgba(255,111,173,.8);
+            border-radius: 13px;
+            background: var(--plum);
+            box-shadow:
+                0 0 20px rgba(255,111,173,.17),
+                inset 0 0 12px rgba(188,167,255,.1);
+        }
+
+        .ssd-slide {
+            position: absolute;
+            inset: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transform: scale(1.04);
+            transition:
+                opacity .75s ease,
+                transform 3.5s ease;
+        }
+
+        .ssd-slide.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .ssd-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 9px;
+        }
+
+        .ssd-dot {
+            width: 9px;
+            height: 9px;
+            padding: 0;
+            border: 0;
+            border-radius: 50%;
+            background: rgba(255,247,242,.42);
+            cursor: pointer;
+            transition:
+                background .2s ease,
+                transform .2s ease,
+                box-shadow .2s ease;
+        }
+
+        .ssd-dot.active {
+            background: var(--pink);
+            transform: scale(1.25);
+            box-shadow: 0 0 10px var(--pink);
+        }
+
+        /* Welcome transition */
+        .welcome-flash {
+            position: fixed;
+            z-index: 20;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0;
+            background: radial-gradient(
+                circle at center,
+                rgba(255,181,138,.95),
+                rgba(255,111,173,.8) 30%,
+                rgba(188,167,255,.95) 75%,
+                var(--deep-plum)
+            );
+        }
+
+        .stage.launching .welcome-flash {
+            animation: welcomeBurst .48s ease-in forwards;
+        }
+
+        .stage.launching .content-card {
+            animation: cardLaunch .45s ease-in forwards;
+        }
+
+        @keyframes welcomeBurst {
+            0% { opacity: 0; }
+            35% { opacity: .95; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes cardLaunch {
+            to {
+                opacity: 0;
+                transform: scale(1.05);
+            }
+        }
+
+        .launch-message {
+            position: absolute;
+            z-index: 21;
+            left: 0;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 16px;
+            text-align: center;
+            color: var(--deep-plum);
+            font-size: clamp(1.3rem, 5vw, 2rem);
+            font-weight: 900;
+            letter-spacing: 2px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .stage.launching .launch-message {
+            animation: messageFlash .48s ease-in forwards;
+        }
+
+        @keyframes messageFlash {
+            0%, 20% { opacity: 0; }
+            45%, 100% { opacity: 1; }
+        }
+
+        /* Compact mobile screens */
+        @media (max-width: 480px) {
+            .stage {
+                gap: 12px;
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            .content-card {
+                padding: 17px 14px;
+                border-radius: 18px;
+            }
+
+            .hero-image {
+                height: clamp(72px, 13vh, 105px);
+                margin-bottom: 14px;
+            }
+
+            .neon-subtitle {
+                margin-bottom: 17px;
+            }
+
+            .hint {
+                margin-top: 12px;
+            }
+
+            .ssd-slideshow-track {
+                height: clamp(58px, 10vh, 82px);
+            }
+
+            .sunset {
+                top: 11%;
+                width: min(75vw, 300px);
+            }
+        }
+
+        @media (max-height: 650px) {
+            .stage {
+                gap: 8px;
+                padding-top: max(8px, env(safe-area-inset-top));
+            }
+
+            .content-card {
+                padding: 12px 16px;
+            }
+
+            .hero-image {
+                height: 58px;
+                margin-bottom: 9px;
+            }
+
+            .neon-title {
+                font-size: clamp(1.6rem, 5vh, 2.5rem);
+                margin-bottom: 7px;
+            }
+
+            .neon-subtitle {
+                margin-bottom: 10px;
+                font-size: .8rem;
+            }
+
+            .drift-btn {
+                min-height: 44px;
+                padding: 10px 16px;
+                font-size: .8rem;
+            }
+
+            .hint {
+                display: none;
+            }
+
+            .ssd-slideshow-label,
+            .ssd-dots {
+                display: none;
+            }
+
+            .ssd-slideshow-track {
+                height: 48px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="stage">
+        <div class="sunset" aria-hidden="true"></div>
+        <div class="horizon-glow" aria-hidden="true"></div>
+        <div class="grid-floor" aria-hidden="true"></div>
+
+        <section class="content-card" aria-labelledby="game-title">
+            <img
+                class="hero-image"
+                src="ssd1.jpg"
+                alt="Hustle City game artwork"
+                fetchpriority="high"
+            >
+
+            <h1 class="neon-title" id="game-title">HUSTLE CITY</h1>
+
+            <p class="neon-subtitle">
+                Cruise the city and make money
+                <span class="tagline">YOUR CITY. YOUR MOVE.</span>
+            </p>
+
+            <a href="game/" class="drift-btn" id="start-button">
+                Enter Cruise Mode
+            </a>
+
+            <p class="hint">Explore the streets. Find your next move.</p>
+        </section>
+
+        <section class="ssd-slideshow" aria-label="Hustle City game previews">
+            <p class="ssd-slideshow-label">EXPLORE THE WORLD</p>
+
+            <div class="ssd-slideshow-track">
+                <img
+                    class="ssd-slide active"
+                    src="ssd2.jpg"
+                    alt="Hustle City preview one"
+                    fetchpriority="high"
+                >
+                <img
+                    class="ssd-slide"
+                    src="ssd3.jpg"
+                    alt="Hustle City preview two"
+                    loading="lazy"
+                >
+                <img
+                    class="ssd-slide"
+                    src="ssd4.jpg"
+                    alt="Hustle City preview three"
+                    loading="lazy"
+                >
+            </div>
+
+            <div class="ssd-dots" aria-label="Choose a preview">
+                <button class="ssd-dot active" type="button"
+                    aria-label="Show preview one" aria-pressed="true"></button>
+                <button class="ssd-dot" type="button"
+                    aria-label="Show preview two" aria-pressed="false"></button>
+                <button class="ssd-dot" type="button"
+                    aria-label="Show preview three" aria-pressed="false"></button>
+            </div>
+        </section>
+
+        <div class="welcome-flash" aria-hidden="true"></div>
+        <p class="launch-message" aria-live="polite">YOUR CITY. YOUR MOVE.</p>
+    </main>
+
+    <script>
+    (() => {
+        const stage = document.querySelector('.stage');
+        const slides = [...document.querySelectorAll('.ssd-slide')];
+        const dots = [...document.querySelectorAll('.ssd-dot')];
+        const startButton = document.querySelector('#start-button');
+        const reducedMotion = window.matchMedia(
+            '(prefers-reduced-motion: reduce)'
+        ).matches;
+
+        let current = 0;
+        let slideshowTimer = null;
+        let launchStarted = false;
+
+        function showSlide(index) {
+            if (!slides.length) return;
+
+            current = (index + slides.length) % slides.length;
+
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === current);
+                slide.setAttribute('aria-hidden', String(i !== current));
+            });
+
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === current);
+                dot.setAttribute('aria-pressed', String(i === current));
+            });
+        }
+
+        function startSlideshow() {
+            if (reducedMotion || slides.length < 2) return;
+
+            slideshowTimer = window.setInterval(() => {
+                showSlide(current + 1);
+            }, 3200);
+        }
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+
+                if (slideshowTimer !== null) {
+                    window.clearInterval(slideshowTimer);
+                    slideshowTimer = null;
+                }
+
+                startSlideshow();
+            });
+        });
+
+        // Pause auto-rotation when the visitor leaves the page.
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                if (slideshowTimer !== null) {
+                    window.clearInterval(slideshowTimer);
+                    slideshowTimer = null;
+                }
+            } else {
+                startSlideshow();
+            }
+        });
+
+        // Preserve the existing game/ destination and show a brief welcome
+        // transition before following the link.
+        startButton.addEventListener('click', event => {
+            if (
+                event.button !== 0 ||
+                event.metaKey ||
+                event.ctrlKey ||
+                event.shiftKey ||
+                event.altKey
+            ) {
+                return;
+            }
+
+            if (launchStarted) {
+                event.preventDefault();
+                return;
+            }
+
+            if (reducedMotion) return;
+
+            event.preventDefault();
+            launchStarted = true;
+            startButton.setAttribute('aria-disabled', 'true');
+            startButton.textContent = 'Entering Hustle City...';
+            stage.classList.add('launching');
+
+            window.setTimeout(() => {
+                window.location.href = startButton.href;
+            }, 450);
+        });
+
+        // Keep a missing image from leaving broken-image UI behind.
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('error', () => {
+                img.style.visibility = 'hidden';
+                console.warn('Hustle City image could not load:', img.src);
+            }, { once: true });
+        });
+
+        showSlide(0);
+        startSlideshow();
+    })();
+    </script>
+</body>
+</html>
